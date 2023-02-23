@@ -10,7 +10,6 @@ body {
 
 body {
   min-height: 100vh;
-  overflow: hidden;
 }
 
 * {
@@ -29,4 +28,26 @@ a {
 
 .backgroundLogin{
   background-color: linear-gradient(131.84deg, #0082BE 3.54%, #6A2875 80.18%);
+}
+
+
+/* width */
+.customScrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+.customScrollbar::-webkit-scrollbar-track {
+  background: #ffffff1a; 
+}
+ 
+/* Handle */
+.customScrollbar::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px; 
+}
+
+/* Handle on hover */
+.customScrollbar::-webkit-scrollbar-thumb:hover {
+  background: #aaa; 
 }
