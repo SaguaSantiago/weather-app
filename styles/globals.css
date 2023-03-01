@@ -14,12 +14,20 @@ body {
 
 * {
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-  color:white
+  /* color:white */
+}
+
+h1,h2,h3,h4,h5,h6,span,p {
+  color: white
 }
 
 a {
   color: inherit;
-  text-decoration: none;
+  transition: color .2s;
+  color:#ddd
+}
+a:hover {
+  color: gray
 }
 
 * {
@@ -50,4 +58,10 @@ a {
 /* Handle on hover */
 .customScrollbar::-webkit-scrollbar-thumb:hover {
   background: #aaa; 
+}
+.rec-item-wrapper {
+  max-width: 136px
+}
+.rec-swipable {
+  justify-content: center;
 }
