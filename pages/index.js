@@ -44,7 +44,7 @@ export default function MainRoute() {
       <Typography mt={1} variant='body2' textAlign='center' sx={{ color: '#aaa' }}>
         if you don't know your country's Alpha-2 Code...
       </Typography>
-      <a href='https://www.iban.com/country-codes' target='_blank'>
+      <a rel='noreferrer' href='https://www.iban.com/country-codes' target='_blank'>
         click here and search it
       </a>
 
