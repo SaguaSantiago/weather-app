@@ -37,7 +37,7 @@ export default function DaysForecast({ open, setOpen, data }) {
       width='100%'
       right='50%'
       position='absolute'
-      bottom={!open ? '-500px' : '0'}
+      bottom={!open ? '-550px' : '0'}
       sx={{ transform: 'translateX(50%)', transition: 'bottom .6s' }}
     >
       <Box position='absolute' left='50%' top='-48px' sx={{ transform: 'translateX(-50%)' }}>
@@ -116,7 +116,7 @@ export default function DaysForecast({ open, setOpen, data }) {
             </Carousel>
           </Box>
 
-          {open && <WeatherDetails details={hourSelected} />}
+          <WeatherDetails details={hourSelected} />
         </Box>
       </Paper>
     </Box>
