@@ -1,5 +1,5 @@
 import WeatherPageComponent from 'Components/WeatherPageComponent'
-import fetchData from 'api/GetData'
+import fetchData from '../../../../../api/GetData'
 
 export default function Weather(props) {
   return <WeatherPageComponent {...props} />
