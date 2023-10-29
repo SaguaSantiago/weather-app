@@ -1,5 +1,5 @@
 import { ForecastRow } from './ForecastRow'
-import CurrentWeatherSection from 'Components/CurrentWeatherSection'
+
 import { rowsObjects } from 'Utilities/RowObjects'
 import {
   Box,
@@ -9,15 +9,18 @@ import {
   TableCell,
   TableBody,
   Typography,
+  useMediaQuery,
 } from '@mui/material'
+import { useSelectInfo } from 'hooks/useSelectInfo'
+import { getDirection } from 'Utilities/getDirections'
 
-export default function WeatherDetails({ details }) {
+export default function WeatherDetails() {
+  const { selected } = useSelectInfo()
+  const { hourInfo } = selected
+  const smallQuery = useMediaQuery('(max-width: 1000px)')
   return (
     <>
-      <Box mb={2}>
-        <CurrentWeatherSection data={details} />
-      </Box>
-      <Box mb={2} display='bl./ForecastRowto' height='400px' maxWidth='450px' width='100%'>
+      <Box mb={2} component='article' height='400px' maxWidth='450px' width='100%'>
         <TableContainer>
           <Table
             sx={{
@@ -33,9 +36,16 @@ export default function WeatherDetails({ details }) {
                   <TableCell>
                     <ForecastRow name={name} imageUrl={imageUrl} />
                   </TableCell>
-                  <TableCell>
-                    <Typography variant='body2'>
-                      {Math.round(details.main[key])} {unit}
+                  <TableCell sx={{ minWidth: '100px' }}>
+                    <Typography
+                      minWidth='60px'
+                      fontSize={smallQuery ? '0.8rem' : '1rem'}
+                      variant='body2'
+                    >
+                      {key !== 'windDirection'
+                        ? Math.round(hourInfo?.values[key])
+                        : getDirection(hourInfo?.values[key])}{' '}
+                      {unit}
                     </Typography>
                   </TableCell>
                 </TableRow>

@@ -5,26 +5,14 @@ export const rowsObjects = [
   {
     name: 'Feels Like',
     imageUrl: 'https://img.icons8.com/office/256/person-male.png',
-    key: 'feels_like',
+    key: 'temperatureApparent',
     unit: 'ºC',
   },
-  { name: 'Current Temperature', imageUrl: temperatureUrl, key: 'temp', unit: 'ºC' },
-  {
-    name: 'Min. Temperature',
-    imageUrl: 'https://img.icons8.com/stickers/512/temperature-low.png',
-    key: 'temp_min',
-    unit: 'ºC',
-  },
-  {
-    name: 'Max. Temperature',
-    imageUrl: 'https://img.icons8.com/stickers/512/temperature-high.png',
-    key: 'temp_max',
-    unit: 'ºC',
-  },
+  { name: 'Current Temperature', imageUrl: temperatureUrl, key: 'temperature', unit: 'ºC' },
   {
     name: 'Pressure',
     imageUrl: 'https://img.icons8.com/ultraviolet/512/pressure.png',
-    key: 'pressure',
+    key: 'pressureSurfaceLevel',
     unit: 'H',
   },
   {
@@ -32,5 +20,23 @@ export const rowsObjects = [
     imageUrl: 'https://img.icons8.com/office/512/hygrometer.png',
     key: 'humidity',
     unit: '%',
+  },
+  {
+    name: 'Precipitation Prob.',
+    imageUrl: '/probability.png',
+    key: 'precipitationProbability',
+    unit: '%',
+  },
+  {
+    name: 'Wind Direction',
+    imageUrl: '/wind.png',
+    key: 'windDirection',
+    unit: '',
+  },
+  {
+    name: 'Wind Speed',
+    imageUrl: '/wind.png',
+    key: 'windSpeed',
+    unit: 'm/s',
   },
 ]

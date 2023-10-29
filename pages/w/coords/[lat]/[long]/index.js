@@ -1,15 +1,13 @@
 import WeatherPageComponent from 'Components/WeatherPageComponent'
-
-import { getAllData } from 'api/getData'
+import fetchData from 'api/GetData'
 
 export default function Weather(props) {
   return <WeatherPageComponent {...props} />
 }
 
 export async function getServerSideProps({ params }) {
-  const { lat, long, } = params
-  const weatherData = await getAllData(lat, long, 'coords')
-
+  const { lat, long } = params
+  const weatherData = await fetchData({ lat, long, typeFetch: 'coords', ubi: null, code: null })
   return {
     props: { ...weatherData },
   }

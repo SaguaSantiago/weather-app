@@ -4,7 +4,8 @@ html,
 body {
   padding: 0;
   margin: 0;
-  background: linear-gradient(90deg, rgba(26, 28, 42, 0.8) 25%, rgba(52, 58, 75, 0.5) 100%), url(https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=765&q=80);
+  background: linear-gradient(90deg, rgba(26, 28, 42, 0.8) 25%, rgba(52, 58, 75, 0.5) 100%),
+    url(https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=765&q=80);
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -14,31 +15,26 @@ body {
 }
 
 * {
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   /* color:white */
-}
-
-h1,h2,h3,h4,h5,h6,span,p {
-  color: white
 }
 
 a {
   color: inherit;
-  transition: color .2s;
-  color:#ddd
+  transition: color 0.2s;
+  color: #ddd;
 }
 a:hover {
-  color: gray
+  color: gray;
 }
 
 * {
   box-sizing: border-box;
 }
 
-.backgroundLogin{
-  background-color: linear-gradient(131.84deg, #0082BE 3.54%, #6A2875 80.18%);
+.backgroundLogin {
+  background-color: linear-gradient(131.84deg, #0082be 3.54%, #6a2875 80.18%);
 }
-
 
 /* width */
 .customScrollbar::-webkit-scrollbar {
@@ -47,21 +43,21 @@ a:hover {
 
 /* Track */
 .customScrollbar::-webkit-scrollbar-track {
-  background: #ffffff1a; 
+  background: #ffffff1a;
 }
- 
+
 /* Handle */
 .customScrollbar::-webkit-scrollbar-thumb {
   background: #888;
-  border-radius: 4px; 
+  border-radius: 4px;
 }
 
 /* Handle on hover */
 .customScrollbar::-webkit-scrollbar-thumb:hover {
-  background: #aaa; 
+  background: #aaa;
 }
 .rec-item-wrapper {
-  max-width: 136px
+  max-width: 136px;
 }
 .rec-swipable {
   justify-content: center;

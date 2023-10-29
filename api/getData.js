@@ -1,59 +1,64 @@
-import axios from 'axios'
+import { fetchOData } from './FetchOpenApi'
 
-async function fetchData(param1, param2, typeFetch) {
-  const KEY = 'c92920c4c4672f3162c2c7e7680db340'
-  const PARAMS =
-    typeFetch === 'coords'
-      ? `lat=${param1}&lon=${param2}&lang=en&units=metric&appid=${KEY}`
-      : `q=${param1},${param2}&lang=en&units=metric&appid=${KEY}`
+const fetchTomorrowApi = ({ location }) =>
+  fetch(
+    `https://api.tomorrow.io/v4/weather/forecast?location=${location}&timesteps=1h&timesteps=1d&units=metric&apikey=EOIu2l99IT9iB8nDjOYd5WPn0lNwbs2d`,
+  ).then((res) => res.json())
 
-  let data = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?${PARAMS}`)
-  let currentData = await axios.get(`https://api.openweathermap.org/data/2.5/weather?${PARAMS}`)
+export default async function fetchData({ lat, long, ubi, typeFetch, code }) {
+  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+  let oData = await fetchOData({ lat, long, ubi, code, typeFetch })
+  let tData = await fetchTomorrowApi({ location: oData.week.city.name || `${lat},${long}` })
+  let data = {
+    week: tData.timelines.daily.map((e) => {
+      let dayId = new Date(e.time).getDay()
+      let allHours = tData.timelines.hourly.filter((e, i) => {
+        let hourDay = new Date(e.time).getDay()
+        return hourDay === dayId
+      })
 
-  return {
-    week: data,
-    current: currentData,
+      return { ...e, day: days[dayId], dayId, allHours }
+    }),
+    current: oData.current,
   }
-}
-
-export const getAllData = async (param1, param2, typeFetch) => {
-  let todayId = null
-  let lastDay = null
-  let days = [
-    { name: 'Sunday', data: [], temp: null, weather: null, id: '0' },
-    { name: 'Monday', data: [], temp: null, weather: null, id: '1' },
-    { name: 'Tuesday', data: [], temp: null, weather: null, id: '2' },
-    { name: 'Wednesday', data: [], temp: null, weather: null, id: '3' },
-    { name: 'Thursday', data: [], temp: null, weather: null, id: '4' },
-    { name: 'Friday', data: [], temp: null, weather: null, id: '5' },
-    { name: 'Saturday', data: [], temp: null, weather: null, id: '6' },
-  ]
-  let data = await fetchData(param1, param2, typeFetch)
-
-  console.log(data)
-  data.week.data.list.forEach((weather, i) => {
-    const date = new Date(weather.dt_txt)
-    const day = date.getDay()
-
-    if (day !== lastDay && lastDay !== null) {
-      const LAST_DAY_OBJECT = days[lastDay]
-      LAST_DAY_OBJECT.temp = Math.trunc(LAST_DAY_OBJECT.temp / LAST_DAY_OBJECT.data.length)
-      const { weather } = LAST_DAY_OBJECT.data[Math.trunc(LAST_DAY_OBJECT.data.length / 2)]
-      LAST_DAY_OBJECT.weather = weather[0]
-    }
-
-    lastDay = day
-    days[day].data.push(weather)
-    days[day].temp += weather.main.temp
-    if (i === 0) {
-      todayId = day
-    }
+  let weekArr = data.week.map((e) => {
+    const newAllHours = e.allHours.map((h) => {
+      let icon = null
+      let value = 100
+      const hDate = new Date(h.time)
+      const differenceValues = oData.week.list.map((l) => {
+        const lDate = new Date(l.dt_txt)
+        return {
+          value: Math.abs(hDate.getHours() - lDate.getHours()),
+          icon: l.weather[0].icon,
+        }
+      })
+      differenceValues.forEach((d) => {
+        if (d.value < value) {
+          icon = d.icon
+          value = d.value
+        }
+      })
+      return { ...h, icon }
+    })
+    return { ...e, allHours: newAllHours }
   })
 
-  const arr1 = days.slice(todayId)
-  const arr2 = days.slice(0, todayId)
-
-  data = { current: data.current.data, week: [...arr1, ...arr2] }
-
-  return data
+  weekArr = weekArr.map((e) => {
+    let acc = {}
+    let actIcon = null
+    let actAppearance = 0
+    e.allHours.forEach((h) => {
+      acc[h.icon] = acc[h.icon] ? acc[h.icon]++ : 1
+    })
+    Object.keys(acc).forEach((i) => {
+      let appearance = acc[i]
+      if (appearance > actAppearance) {
+        actAppearance = appearance
+        actIcon = i
+      }
+    })
+    return { ...e, icon: actIcon }
+  })
+  return { ...data, week: weekArr }
 }

@@ -1,57 +1,65 @@
-import { Box, Paper, styled, Typography } from '@mui/material'
-import Image from 'next/image'
 import { useEffect, useState } from 'react'
+import Image from 'Components/Image'
+import { Box, Paper, styled, Typography } from '@mui/material'
+import { useSelectInfo } from 'hooks/useSelectInfo'
 
 const StyledPaper = styled(Paper)(
   ({ theme, selected }) => `
-    border-radius: 35px;
+    border-radius: 20px;
     background-color: ${selected ? theme.palette.secondary.light + '84' : '#b9bac340'};
-    height: 100%;
-    border: ${selected ? `3px solid ${theme.palette.secondary.light}` : ''};
+    height: 150px;
+    border:  3px solid;
+    border-color:${selected ? theme.palette.secondary.light : '#cccccc2f'};
     padding-top: 14px;
-    transition: background-color .4s;
-    transition: border .4s;
+    transition: background-color .4s,border .4s;
     padding-bottom: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
 `,
 )
 
-export default function DayForecastPaper({ weatherDay, isToday = false, daySelected: ds }) {
-  const { name, weather, temp, id } = weatherDay
-  const { icon } = weather
-
-  const [daySelected, setDaySelected] = ds
-  const [isSelected, setIsSelected] = useState(id === daySelected)
+export default function DayForecastPaper({ weatherDay, isToday = false }) {
+  const { changeDayDetails, selected } = useSelectInfo()
+  const { dayId, values, day, icon } = weatherDay
+  const [isSelected, setIsSelected] = useState(dayId === selected.day)
+  // console.log(weatherDay)
 
   useEffect(() => {
-    setIsSelected(id === daySelected)
-  }, [daySelected])
+    setIsSelected(dayId === selected.day)
+  }, [selected])
 
   return (
     <Box
-      onClick={() => setDaySelected(id)}
+      onClick={() => changeDayDetails(dayId)}
       sx={{ ':hover': { cursor: 'pointer' } }}
       mx='auto'
       width='100%'
-      minHeight='120px'
-      minWidth='60px'
-      maxWidth='75px'
+      minHeight='130px'
+      minWidth='110px'
+      maxWidth='130px'
     >
       <StyledPaper selected={isSelected}>
         <Typography variant='body2' fontWeight='light' textAlign='center'>
-          {isToday ? 'Today' : name}
+          {isToday ? 'Today' : day}
         </Typography>
-        <Box position='relative' width='100%' height='50px'>
+        <Box position='relative' width='100%' height='70px'>
           <Image
-            onClick={() => setDaySelected(id)}
-            layout='fill'
+            onClick={() => changeDayDetails(dayId)}
             objectFit='scale-down'
             src={`http://openweathermap.org/img/wn/${icon}@2x.png`}
-            alt='rain'
+            alt={'weather '}
           />
         </Box>
-        <Typography fontWeight='light' textAlign='center'>
-          {temp}º
-        </Typography>
+        <Box width='100%' display='flex' justifyContent='space-around' px={0.8}>
+          <Typography fontWeight='light' color='cyan' textAlign='center'>
+            {Math.trunc(values.temperatureApparentMin)}º
+          </Typography>
+          <Typography fontWeight='light' color='error.light' textAlign='center'>
+            {Math.trunc(values.temperatureApparentMax)}º
+          </Typography>
+        </Box>
       </StyledPaper>
     </Box>
   )
